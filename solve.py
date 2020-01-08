@@ -1,4 +1,5 @@
 import argparse, importlib, os, re
+from utils import Options
 
 def solve(problem, opt):
     module = importlib.import_module('p' + problem)
@@ -6,7 +7,7 @@ def solve(problem, opt):
     module.main(opt)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = Options().get_parser()
     parser.add_argument('problems', nargs='*', help='Problem numbers to solve')
     args = parser.parse_args()
 
@@ -17,7 +18,5 @@ if __name__ == '__main__':
             if m:
                 args.problems.append(m.group(1))
 
-    setattr(args, 'time', False)
-    setattr(args, 'check', False)
     for problem in args.problems:
-        solve(problem, args)
+        solve(problem.zfill(3), args)
